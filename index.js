@@ -109,7 +109,7 @@ app.post('/ussd', (req, res) => {
                 voted_candidate: candidateNames[candidateIndex]
             };
 
-            const query = 'INSERT INTO votes SET ?';
+            const query = 'INSERT INTO voting_data SET ?';
             db.query(query, voteData, (err, result) => {
                 if (err) {
                     console.error('Error inserting data into database:', err.stack);
