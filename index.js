@@ -77,8 +77,8 @@ app.post('/ussd', (req, res) => {
             } else {
                 // Voting option selected
                 response = userLanguages[phoneNumber] === 'en' ? 
-                    `CON Select a candidate:\n1. Raymond IGABINEZA\n2. Florence UMUTONIWASE\n3. Jean Paul KWIBUKA\n4. Gaella UWAYO\n5. Danny HABIMANA` : 
-                    `CON Hitamo umukandida:\n1. Raymond IGABINEZA\n2. Florence UMUTONIWASE\n3. Jean Paul KWIBUKA\n4. Gaella UWAYO\n5. Danny HABIMANA`;
+                    `CON Select a candidate:\n1. Nshimiyimana Isaac\n2. Ishimwe Christian\n3. Ntirenganya Juma\n4. Gatesi Kevine\n5. Muteteri H`: 
+                    `CON Hitamo umukandida:\n1. Nshimiyimana Isaac\n2. Ishimwe Christian\n3. Ntirenganya Juma\n4. Gatesi Kevine\n5. Muteteri H`;
             }
         } else if (userInput[2] === '2') {
             // View votes option selected
