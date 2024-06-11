@@ -26,11 +26,11 @@ db.connect(err => {
 
 // In-memory storage for votes (for simplicity)
 let votes = {
-    "Raymond I. ": 0,
-    "Florence U. ": 0,
-    "Jean Paul K. ": 0,
-    "Gaella U. ": 0,
-    "Danny H. ": 0
+    "Nshimiyimana. ": 0,
+    "Ishimwe. ": 0,
+    "Ntirenganya Juma. ": 0,
+    "Gatesi. ": 0,
+    "Muteteri H. ": 0
 };
 
 // In-memory storage for user data (for simplicity)
@@ -50,7 +50,7 @@ app.post('/ussd', (req, res) => {
     // Determine next action based on user input
     if (userInput.length === 1 && userInput[0] === '') {
         // First level menu: Language selection
-        response = `CON Welcome to Mayor voting booth\n`;
+        response = `CON Welcome to NEC ease voting\n`;
         response += `1. English\n`;
         response += `2. Kinyarwanda`;
     } else if (userInput.length === 1 && userInput[0] !== '') {
@@ -73,7 +73,7 @@ app.post('/ussd', (req, res) => {
             if (voters.has(phoneNumber)) {
                 response = userLanguages[phoneNumber] === 'en' ? 
                     `END You have already voted. Thank you!` : 
-                    `END Waratoye. Murakoze!`;
+                    `END Biragara ko Mwatoye rimwe ryemewe. !`;
             } else {
                 // Voting option selected
                 response = userLanguages[phoneNumber] === 'en' ? 
@@ -119,7 +119,7 @@ app.post('/ussd', (req, res) => {
         } else {
             response = userLanguages[phoneNumber] === 'en' ? 
                 `END Invalid selection. Please try again.` : 
-                `END Hitamo idahwitse. Ongera ugerageze.`; 
+                `END Amahitamo Adahwitse. Ongera ugerageze.`; 
         }
     }
 
