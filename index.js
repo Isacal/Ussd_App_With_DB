@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const mysql = require('mysql');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 6000;
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -11,7 +11,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 const db = mysql.createConnection({
     host: 'bhd6etwlauimbd4c6tiw-mysql.services.clever-cloud.com',
     user: 'u0xy0iaquntg8py8',
-    password: 'GN6ahWSuoaXW9pJpZKn0', // Replace with your MySQL password
+    password: 'GN6ahWSuoaXW9pJpZKn0', // My MySQL password
     database: 'bhd6etwlauimbd4c6tiw'
 });
 
@@ -46,8 +46,8 @@ app.post('/ussd', (req, res) => {
         response += `2. Kinyarwanda`;
     } else if (userInput.length === 1 && userInput[0] !== '') {
         // Save user's language choice and move to the name input menu
-        userLanguages[phoneNumber] = userInput[0] === '1' ? 'en' : 'rw';
-        response = userLanguages[phoneNumber] === 'en' ? 
+        userLanguages[phoneNumber] = userInput[0] === '1' ? 'English' : 'Kinyarwanda';
+        response = userLanguages[phoneNumber] === 'English' ? 
             `CON Please enter your name:` : 
             `CON Injiza izina ryawe:`;
     } else if (userInput.length === 2) {
@@ -55,19 +55,19 @@ app.post('/ussd', (req, res) => {
         userNames[phoneNumber] = userInput[1];
 
         // Third level menu: Main menu
-        response = userLanguages[phoneNumber] === 'en' ? 
+        response = userLanguages[phoneNumber] === 'English' ? 
             `CON Hi ${userNames[phoneNumber]}, choose an option:\n1. Vote Candidate\n2. View Votes` : 
             `CON Muraho ${userNames[phoneNumber]}, hitamo uburyo:\n1. Tora umukandida\n2. Reba amajwi`;
     } else if (userInput.length === 3) {
         if (userInput[2] === '1') {
             // Check if the phone number has already voted
             if (voters.has(phoneNumber)) {
-                response = userLanguages[phoneNumber] === 'en' ? 
+                response = userLanguages[phoneNumber] === 'English' ? 
                     `END You have already voted. Thank you!` : 
                     `END Biragara ko Mwatoye rimwe ryemewe. !`;
             } else {
                 // Voting option selected
-                response = userLanguages[phoneNumber] === 'en' ? 
+                response = userLanguages[phoneNumber] === 'English' ? 
                     `CON Select a candidate:\n1. Nshimiyimana Isaac\n2. Ishimwe Christian\n3. Ntirenganya Juma\n4. Gatesi Kevine\n5. Muteteri H`: 
                     `CON Hitamo umukandida:\n1. Nshimiyimana Isaac\n2. Ishimwe Christian\n3. Ntirenganya Juma\n4. Gatesi Kevine\n5. Muteteri H`;
             }
@@ -76,11 +76,11 @@ app.post('/ussd', (req, res) => {
             db.query('SELECT voted_candidate, COUNT(*) AS votes FROM voting_data GROUP BY voted_candidate', (err, results) => {
                 if (err) {
                     console.error('Error fetching votes from database:', err.stack);
-                    response = userLanguages[phoneNumber] === 'en' ? 
+                    response = userLanguages[phoneNumber] === 'English' ? 
                         `END Error fetching votes. Please try again later.` : 
                         `END Ikibazo kubitaramo amajwi. Ongera ugerageze nyuma.`;
                 } else {
-                    response = userLanguages[phoneNumber] === 'en' ? 
+                    response = userLanguages[phoneNumber] === 'English' ? 
                         `END Votes:\n` : 
                         `END Amajwi:\n`;
                     results.forEach(row => {
@@ -103,7 +103,7 @@ app.post('/ussd', (req, res) => {
         ];
         if (candidateIndex >= 0 && candidateIndex < candidateNames.length) {
             voters.add(phoneNumber); // Mark this phone number as having voted
-            response = userLanguages[phoneNumber] === 'en' ? 
+            response = userLanguages[phoneNumber] === 'English' ? 
                 `END Thank you for voting for ${candidateNames[candidateIndex]}!` : 
                 `END Murakoze gutora ${candidateNames[candidateIndex]}!`;
 
@@ -124,7 +124,7 @@ app.post('/ussd', (req, res) => {
                 }
             });
         } else {
-            response = userLanguages[phoneNumber] === 'en' ? 
+            response = userLanguages[phoneNumber] === 'English' ? 
                 `END Invalid selection. Please try again.` : 
                 `END Amahitamo Adahwitse. Ongera ugerageze.`; 
         }
